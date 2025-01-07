@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "[CHECK] gpg"
+/usr/bin/gpg --card-status || exit 1

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "[START] init"
+env
+
+echo "trusted-key 13FDABAE2C2DEE02B946C90EE9BDDBACDBA83534" >> $HOME/.gnupg/gpg.conf
+echo "passphrase 123456" >> $HOME/.gnupg/gpg.conf
+
+echo "[END]  init"
+
+s6-notifyoncheck init
+exit 0

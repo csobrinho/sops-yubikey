@@ -7,23 +7,33 @@ ENV GPG_PASSPHRASE=123456
 
 USER root
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    tini \
+    ca-certificates \
+    s6 \
     gnupg \
     gpg-agent \
     scdaemon \
     pcscd \
     pcsc-tools \
     libccid \
-    lsusb \
+    usbutils \
     lshw && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /root
 
-COPY . .
-RUN chmod 700 .gnupg
-RUN chmod 600 .gnupg/*
-RUN chmod +x run.sh
+COPY .gnupg .gnupg
+RUN chmod 700 .gnupg && \
+    chmod 600 .gnupg/*
 
-ENTRYPOINT ["/usr/bin/tini", "--", "/root/run.sh"]
+WORKDIR /
+COPY services.d /etc/services.d
+RUN chmod +x /etc/services.d/*/run && \
+    chmod +x /etc/services.d/*/check && \
+    chmod +x /etc/services.d/*/finish
+
+COPY run.sh /root/run.sh
+RUN chmod +x /root/run.sh
+
+# ENTRYPOINT ["/usr/bin/s6-svscan", "/etc/services.d"]
+ENTRYPOINT ["/root/run.sh"]

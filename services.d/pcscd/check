@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "[CHECK] pcscd"
+pcsc_scan -qr | grep -q "0: Yubico" || exit 1

@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "[END]  gpg with error: $1" >&2
+
+sleep 5
+exit $1

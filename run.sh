@@ -16,4 +16,3 @@ pcscd --info --foreground --color --disable-polkit &
 sleep 5
 
 gpg --card-status
-sleep infinity

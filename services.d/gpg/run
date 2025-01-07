@@ -1,0 +1,8 @@
+#!/bin/sh
+s6-svwait -U /var/run/s6/services/pcscd
+
+echo "[START] gpg"
+env
+
+pkill '[g]pg|gpg-agent|scdaemon'
+sleep infinity
